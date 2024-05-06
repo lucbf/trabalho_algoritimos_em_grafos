@@ -86,7 +86,10 @@ class LeitorDeArquivo:
                         aresta_v2 = int(char)
                     elif idx_aresta == 4:
                         if char == ')':
-                            arestas.append((aresta_v1, aresta_v2))
+                            if aresta_v1 in vertices and aresta_v2 in vertices:
+                                arestas.append((aresta_v1, aresta_v2))
+                            else:
+                                imprimir_erro("Aresta do arquivo se conecta a vértice inexistente.")
                         else:
                             imprimir_erro("Caractere inválido no arquivo.")
                     elif idx_aresta == 5:
