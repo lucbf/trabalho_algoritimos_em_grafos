@@ -13,3 +13,6 @@ class ListaAdj:
 
         for v1, v2 in arestas:
             self.lista_adj[v1].append(v2)
+    
+    def __str__(self) -> str:
+        return self.lista_adj.__str__()

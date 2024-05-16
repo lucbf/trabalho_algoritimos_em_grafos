@@ -14,3 +14,10 @@ class MatrizAdj:
 
         for a, b in arestas:
             self.matriz_adj[a][b] = 1
+    
+    def __str__(self) -> str:
+        retorno = ''
+        for lista in self.matriz_adj:
+            retorno += lista.__str__() + '\n'
+        
+        return retorno
