@@ -1,4 +1,5 @@
 import os.path
+from enum import Enum
 from erro import imprimir_erro
 
 class LeitorDeArquivo:
@@ -18,8 +19,8 @@ class LeitorDeArquivo:
     '''
     Lê arquivo e retorna os vértices e as arestas
     '''
-    def interpretar():
-        aq = open(arquivo)
+    def interpretar(self):
+        aq = open(self.arquivo)
         aq = aq.read()
 
         vertices = []
@@ -44,7 +45,7 @@ class LeitorDeArquivo:
                     if char != '{':
                         imprimir_erro("Caractere inválido no arquivo.")
                     else:
-                        modo == Modo.VERTICE
+                        modo = Modo.VERTICE
             elif modo == Modo.VERTICE:
                 if idx % 2:
                     vertices.append(int(char))
@@ -55,7 +56,7 @@ class LeitorDeArquivo:
                     else:
                         imprimir_erro("Caractere inválido no arquivo.")
             elif modo == Modo.TRANSICAO:
-                idx_transicao = comeca - idx
+                idx_transicao = idx - comeca
 
                 if idx_transicao == 0 and char != ';':
                     imprimir_erro("Caractere inválido no arquivo.")
@@ -75,7 +76,7 @@ class LeitorDeArquivo:
                 if char == '}':
                     modo = Modo.FIM
                 else:
-                    idx_aresta = comeca - idx
+                    idx_aresta = idx - comeca
                     if idx_aresta == 0 and char != '(':
                         imprimir_erro("Caractere inválido no arquivo.")
                     elif idx_aresta == 1:
