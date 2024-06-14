@@ -1,3 +1,4 @@
+from time import perf_counter
 from leitor_de_arquivo import LeitorDeArquivo
 from matriz_adj import MatrizAdj
 from lista_adj import ListaAdj
@@ -15,37 +16,45 @@ class Menu:
         resposta = input().lower()
 
         if resposta == 's':
-            i = len(tupla_vertices_arestas[1]) - 1
-            while i >= 0:
-                tupla_vertices_arestas[1].append((tupla_vertices_arestas[1][i][1], tupla_vertices_arestas[1][i][0]))
-
-                i -= 1
+            self.direcionado = True
+        else:
+            self.direcionado = False
 
         
-        self.matriz_adj = MatrizAdj(tupla_vertices_arestas[0], tupla_vertices_arestas[1])
-        self.lista_adj = ListaAdj(tupla_vertices_arestas[0], tupla_vertices_arestas[1])
+        self.matriz_adj = MatrizAdj(tupla_vertices_arestas[0], tupla_vertices_arestas[1], self.direcionado)
+        self.lista_adj = ListaAdj(tupla_vertices_arestas[0], tupla_vertices_arestas[1], self.direcionado)
         self.informacao_arquivo = (caminho_do_arquivo_a_ser_lido, tupla_vertices_arestas)
 
     def menu_representacoes(self):
+        tempo = 0
         while True:
             print("[1] Ver matriz de adjacência do grafo")
             print("[2] Ver lista de adjacência do grafo")
 
             resposta = int(input())
+            tempo = perf_counter()
             if resposta == 1:
                 print(self.matriz_adj)
                 break
             elif resposta == 2:
                 print(self.lista_adj)
                 break
+        return perf_counter() - tempo
+        
     
     def menu_manipulacoes(self):
-        print("Grafo: V = ", end='')
+        tipo_grafo = ""
+        if self.direcionado:
+            tipo_grafo = "Direcionado"
+        else:
+            tipo_grafo = "Não Direcionado"
+
+        print("Grafo {}: V = ".format(tipo_grafo), end='')
         print(self.informacao_arquivo[1][0], end="; A = ")
         print(self.informacao_arquivo[1][1], end=';\n')
 
         
-
+        tempo = 0
         while True:
             print("[1] Adicionar vértice no grafo")
             print("[2] Remover vértice no grafo")
@@ -57,6 +66,9 @@ class Menu:
             if resposta == 1:
                 print("Qual o vértice a ser adicionado?", end=' ')
                 vertice = int(input())
+
+                tempo = perf_counter()
+
                 if vertice in self.informacao_arquivo[1][0]:
                     imprimir_erro("Vértice já existe no grafo.")
                 else:
@@ -65,18 +77,26 @@ class Menu:
             if resposta == 2:
                 print("Qual o vértice a ser removido?", end=' ')
                 vertice = int(input())
+
+                tempo = perf_counter()
+
                 if vertice in self.informacao_arquivo[1][0]:
                     self.informacao_arquivo[1][0].remove(vertice)
 
-                    for idx, e in enumerate(self.informacao_arquivo[1][1]):
-                        if e[0] == vertice or e[1] == vertice:
-                            del self.informacao_arquivo[1][1][idx]
+                    i = len(self.informacao_arquivo[1][1]) - 1
+                    while i >= 0:
+                        if self.informacao_arquivo[1][1][i][0] == vertice or self.informacao_arquivo[1][1][i][1] == vertice:
+                            del self.informacao_arquivo[1][1][i]
+                        i -= 1
                 else:
                     imprimir_erro("Vértice não existe no grafo.")
                 break
             if resposta == 3:
                 print("Qual a aresta a ser adicionada? [_ _]", end=' ')
                 aresta = input().split(' ')
+
+                tempo = perf_counter()
+
                 aresta[0] = int(aresta[0])
                 aresta[1] = int(aresta[1])
                 aresta = (aresta[0], aresta[1])
@@ -88,6 +108,9 @@ class Menu:
             if resposta == 4:
                 print("Qual a aresta a ser removida? [_ _]", end=' ')
                 aresta = input().split(' ')
+
+                tempo = perf_counter()
+
                 aresta[0] = int(aresta[0])
                 aresta[1] = int(aresta[1])
                 aresta = (aresta[0], aresta[1])
@@ -97,8 +120,10 @@ class Menu:
                     imprimir_erro("Aresta não existe no grafo.")
                 break
         self.atualizar_arquivo()
-        self.matriz_adj = MatrizAdj(self.informacao_arquivo[1][0], self.informacao_arquivo[1][1])
-        self.lista_adj = ListaAdj(self.informacao_arquivo[1][0], self.informacao_arquivo[1][1])
+        self.matriz_adj = MatrizAdj(self.informacao_arquivo[1][0], self.informacao_arquivo[1][1], self.direcionado)
+        self.lista_adj = ListaAdj(self.informacao_arquivo[1][0], self.informacao_arquivo[1][1], self.direcionado)
+
+        return perf_counter() - tempo
     
 
     def atualizar_arquivo(self):
@@ -133,15 +158,21 @@ class Menu:
     def executar(self):
         sair = False
 
+        tempo = 0
+
         while not sair:
+            if tempo != 0:
+                print("O tempo de execução foi de: {}".format(tempo))
+
+
             print("[1] Representações")
             print("[2] Manipular Grafo")
             print("[20] Sair do programa")
 
             resposta = int(input())
             if resposta == 1:
-                self.menu_representacoes()
+                tempo = self.menu_representacoes()
             elif resposta == 2:
-                self.menu_manipulacoes()
+                tempo = self.menu_manipulacoes()
             elif resposta == 20:
                 sair = True
