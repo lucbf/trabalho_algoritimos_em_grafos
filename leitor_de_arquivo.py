@@ -20,8 +20,9 @@ class LeitorDeArquivo:
     Lê arquivo e retorna os vértices e as arestas
     '''
     def interpretar(self):
-        aq = open(self.arquivo)
-        aq = aq.read()
+        aq_ = open(self.arquivo)
+        aq = aq_.read()
+        aq_.close()
 
         vertices = []
         arestas = []
