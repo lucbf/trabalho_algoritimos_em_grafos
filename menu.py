@@ -9,6 +9,18 @@ class Menu:
     def __init__(self, caminho_do_arquivo_a_ser_lido):
         leitor = LeitorDeArquivo(caminho_do_arquivo_a_ser_lido)
         tupla_vertices_arestas = leitor.interpretar()
+
+
+        print("O grafo é direcionado? [S/N]", end = ' ')
+        resposta = input().lower()
+
+        if resposta == 's':
+            i = len(tupla_vertices_arestas[1]) - 1
+            while i >= 0:
+                tupla_vertices_arestas[1].append((tupla_vertices_arestas[1][i][1], tupla_vertices_arestas[1][i][0]))
+
+                i -= 1
+
         
         self.matriz_adj = MatrizAdj(tupla_vertices_arestas[0], tupla_vertices_arestas[1])
         self.lista_adj = ListaAdj(tupla_vertices_arestas[0], tupla_vertices_arestas[1])
