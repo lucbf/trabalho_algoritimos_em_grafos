@@ -1,8 +1,9 @@
-from time import perf_counter
+from time import perf_counter_ns
 from leitor_de_arquivo import LeitorDeArquivo
 from matriz_adj import MatrizAdj
 from lista_adj import ListaAdj
 from erro import imprimir_erro
+from verificacoes.qtd import conta
 
 class Menu:
     lista_algoritimos = []
@@ -32,14 +33,14 @@ class Menu:
             print("[2] Ver lista de adjacência do grafo")
 
             resposta = int(input())
-            tempo = perf_counter()
+            tempo = perf_counter_ns()
             if resposta == 1:
                 print(self.matriz_adj)
                 break
             elif resposta == 2:
                 print(self.lista_adj)
                 break
-        return perf_counter() - tempo
+        return perf_counter_ns() - tempo
         
     
     def menu_manipulacoes(self):
@@ -67,7 +68,7 @@ class Menu:
                 print("Qual o vértice a ser adicionado?", end=' ')
                 vertice = int(input())
 
-                tempo = perf_counter()
+                tempo = perf_counter_ns()
 
                 if vertice in self.informacao_arquivo[1][0]:
                     imprimir_erro("Vértice já existe no grafo.")
@@ -78,7 +79,7 @@ class Menu:
                 print("Qual o vértice a ser removido?", end=' ')
                 vertice = int(input())
 
-                tempo = perf_counter()
+                tempo = perf_counter_ns()
 
                 if vertice in self.informacao_arquivo[1][0]:
                     self.informacao_arquivo[1][0].remove(vertice)
@@ -95,7 +96,7 @@ class Menu:
                 print("Qual a aresta a ser adicionada? [_ _]", end=' ')
                 aresta = input().split(' ')
 
-                tempo = perf_counter()
+                tempo = perf_counter_ns()
 
                 aresta[0] = int(aresta[0])
                 aresta[1] = int(aresta[1])
@@ -109,7 +110,7 @@ class Menu:
                 print("Qual a aresta a ser removida? [_ _]", end=' ')
                 aresta = input().split(' ')
 
-                tempo = perf_counter()
+                tempo = perf_counter_ns()
 
                 aresta[0] = int(aresta[0])
                 aresta[1] = int(aresta[1])
@@ -123,7 +124,7 @@ class Menu:
         self.matriz_adj = MatrizAdj(self.informacao_arquivo[1][0], self.informacao_arquivo[1][1], self.direcionado)
         self.lista_adj = ListaAdj(self.informacao_arquivo[1][0], self.informacao_arquivo[1][1], self.direcionado)
 
-        return perf_counter() - tempo
+        return perf_counter_ns() - tempo
     
 
     def atualizar_arquivo(self):
@@ -153,7 +154,24 @@ class Menu:
         aq.close()
 
 
-            
+    def menu_verificacoes(self):
+        tempo = 0
+        while True:
+            print("[1] Contar quantos vértices tem no grafo")
+            print("[2] Contar quantas arestas tem no grafo")
+
+            entrada = int(input())
+            tempo = perf_counter_ns()
+
+            if entrada == 1:
+                nv = conta(self.informacao_arquivo[1][0])
+                print("O grafo tem {} vértices".format(nv))
+                break
+            elif entrada == 2:
+                na = conta(self.informacao_arquivo[1][1])
+                print("O grafo tem {} arestas".format(na))
+                break
+        return perf_counter_ns() - tempo
     
     def executar(self):
         sair = False
@@ -162,11 +180,12 @@ class Menu:
 
         while not sair:
             if tempo != 0:
-                print("O tempo de execução foi de: {}".format(tempo))
+                print("O tempo de execução foi de: {}ns".format(tempo))
 
 
             print("[1] Representações")
             print("[2] Manipular Grafo")
+            print("[3] Verificações")
             print("[20] Sair do programa")
 
             resposta = int(input())
@@ -174,5 +193,7 @@ class Menu:
                 tempo = self.menu_representacoes()
             elif resposta == 2:
                 tempo = self.menu_manipulacoes()
+            elif resposta == 3:
+                tempo = self.menu_verificacoes()
             elif resposta == 20:
                 sair = True
