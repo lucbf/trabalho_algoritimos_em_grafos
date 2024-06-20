@@ -4,6 +4,7 @@ from matriz_adj import MatrizAdj
 from lista_adj import ListaAdj
 from erro import imprimir_erro
 from verificacoes.qtd import conta
+from verificacoes.grau import calcula_grau
 
 class Menu:
     lista_algoritimos = []
@@ -159,6 +160,7 @@ class Menu:
         while True:
             print("[1] Contar quantos vértices tem no grafo")
             print("[2] Contar quantas arestas tem no grafo")
+            print("[3] Calcular o grau de um vértice")
 
             entrada = int(input())
             tempo = perf_counter_ns()
@@ -171,6 +173,22 @@ class Menu:
                 na = conta(self.informacao_arquivo[1][1])
                 print("O grafo tem {} arestas".format(na))
                 break
+            elif entrada == 3:
+                print("Qual o vértice a ser analisado?", end=' ')
+                vertice = int(input())
+                tempo = perf_counter_ns()
+
+                tam = 0
+                for _ in self.matriz_adj.matriz_adj:
+                    tam += 1
+                
+                if tam - 1 < vertice or vertice < 0:
+                    print("Vértice inválido.")
+                else:
+                    grau = calcula_grau(vertice, self.lista_adj.lista_adj)
+                    print("O grau do vértice {} é {}.".format(vertice, grau))
+                break
+
         return perf_counter_ns() - tempo
     
     def executar(self):
