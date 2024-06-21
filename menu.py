@@ -6,6 +6,7 @@ from erro import imprimir_erro
 from verificacoes.qtd import conta
 from verificacoes.grau import calcula_grau
 from verificacoes.conexidade_forte import gerar_lista_conexidade_forte
+from verificacoes.ciclos import verificar_ciclos
 
 class Menu:
     lista_algoritimos = []
@@ -166,6 +167,7 @@ class Menu:
             if self.direcionado:
                 print("[4] Verificar as conexidades fortes do grafo")
                 id = 5
+            print('[{}] Verificar se o grafo possui ciclos'.format(id))
             
 
             entrada = int(input())
@@ -197,6 +199,12 @@ class Menu:
             elif entrada == 4 and self.direcionado:
                 lista = gerar_lista_conexidade_forte(self.matriz_adj.matriz_adj)
                 print("Os vértices de conexidade forte são: {}".format(lista))
+                break
+            elif (entrada == 4 and not self.direcionado) or (entrada == 5 and self.direcionado):
+                if verificar_ciclos(self.lista_adj.lista_adj):
+                    print("O grafo possui pelo menos um ciclo.")
+                else:
+                    print("O grafo não possui ciclos.")
                 break
 
 
