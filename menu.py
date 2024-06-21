@@ -5,6 +5,7 @@ from lista_adj import ListaAdj
 from erro import imprimir_erro
 from verificacoes.qtd import conta
 from verificacoes.grau import calcula_grau
+from verificacoes.conexidade_forte import gerar_lista_conexidade_forte
 
 class Menu:
     lista_algoritimos = []
@@ -161,6 +162,7 @@ class Menu:
             print("[1] Contar quantos vértices tem no grafo")
             print("[2] Contar quantas arestas tem no grafo")
             print("[3] Calcular o grau de um vértice")
+            print("[4] Verificar as conexidades fortes do grafo")
 
             entrada = int(input())
             tempo = perf_counter_ns()
@@ -188,6 +190,11 @@ class Menu:
                     grau = calcula_grau(vertice, self.lista_adj.lista_adj)
                     print("O grau do vértice {} é {}.".format(vertice, grau))
                 break
+            elif entrada == 4:
+                lista = gerar_lista_conexidade_forte(self.matriz_adj.matriz_adj)
+                print("Os vértices de conexidade forte são: {}".format(lista))
+                break
+
 
         return perf_counter_ns() - tempo
     
