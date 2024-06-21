@@ -162,7 +162,11 @@ class Menu:
             print("[1] Contar quantos vértices tem no grafo")
             print("[2] Contar quantas arestas tem no grafo")
             print("[3] Calcular o grau de um vértice")
-            print("[4] Verificar as conexidades fortes do grafo")
+            id = 4
+            if self.direcionado:
+                print("[4] Verificar as conexidades fortes do grafo")
+                id = 5
+            
 
             entrada = int(input())
             tempo = perf_counter_ns()
@@ -190,7 +194,7 @@ class Menu:
                     grau = calcula_grau(vertice, self.lista_adj.lista_adj)
                     print("O grau do vértice {} é {}.".format(vertice, grau))
                 break
-            elif entrada == 4:
+            elif entrada == 4 and self.direcionado:
                 lista = gerar_lista_conexidade_forte(self.matriz_adj.matriz_adj)
                 print("Os vértices de conexidade forte são: {}".format(lista))
                 break
