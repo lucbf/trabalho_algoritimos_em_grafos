@@ -7,6 +7,7 @@ from verificacoes.qtd import conta
 from verificacoes.grau import calcula_grau
 from verificacoes.conexidade_forte import gerar_lista_conexidade_forte
 from verificacoes.ciclos import verificar_ciclos
+from verificacoes.euleriano import verifica_euleriano
 
 class Menu:
     lista_algoritimos = []
@@ -168,6 +169,8 @@ class Menu:
                 print("[4] Verificar as conexidades fortes do grafo")
                 id = 5
             print('[{}] Verificar se o grafo possui ciclos'.format(id))
+            id += 1
+            print('[{}] Verificar se o grafo é euleriano'.format(id))
             
 
             entrada = int(input())
@@ -206,6 +209,8 @@ class Menu:
                 else:
                     print("O grafo não possui ciclos.")
                 break
+            elif (entrada == 5 and not self.direcionado) or (entrada == 6 and self.direcionado):
+                print(verifica_euleriano(self.lista_adj.lista_adj))
 
 
         return perf_counter_ns() - tempo
