@@ -6,8 +6,11 @@ def dfs_ciclo(lista_adj, idx, cores, achou_ciclo = False):
     for v in lista_adj[idx]:
         if cores[v] == Cores.BRANCO:
             achou_ciclo = dfs_ciclo(lista_adj, v, cores, achou_ciclo)
+            if achou_ciclo:
+                break
         else:
             achou_ciclo = True
+            break
     
     cores[idx] = Cores.PRETO
     return achou_ciclo

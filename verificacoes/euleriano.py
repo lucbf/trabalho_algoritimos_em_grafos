@@ -17,10 +17,8 @@ def verifica_euleriano(lista_adj):
             graus_pares += 1
         v += 1
     
-    if graus_impares == 2:
-        return "Semi-Euleriano"
-    elif graus_impares == 0:
-        return "Euleriano"
+    if graus_impares == 0:
+        return 1
     else:
-        return "Não é Euleriano"
+        return 0
 
