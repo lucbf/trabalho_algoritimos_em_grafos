@@ -21,6 +21,6 @@ def verifica_conexo(lista_adj):
 
     for c in cores:
         if c != Cores.PRETO:
-            return 0
+            return False
     else:
-        return 1
+        return True

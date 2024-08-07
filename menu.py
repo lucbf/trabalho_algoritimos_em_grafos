@@ -2,41 +2,63 @@
 from leitor_de_arquivo import LeitorDeArquivo
 from matriz_adj import MatrizAdj
 from lista_adj import ListaAdj
-from verificacoes.bipartido import verifica_bipartido
-from verificacoes.ciclos import verificar_ciclos
-from verificacoes.euleriano import verifica_euleriano
-from verificacoes.conexo import verifica_conexo
+from bipartido import verifica_bipartido
+from ciclos import verificar_ciclos
+from conexo import verifica_conexo
+from ordem_topologica import gera_ordem_topologica
+from bfs import gerar_arvore_bfs
+from dfs import gerar_arvore_dfs
+from comp_fortemente_conexas import lista_comp_fortemente_conexas
+from caminho_euleriano import verifica_pseudosimetrico, gerar_caminho_euleriano
 
 class Menu:
     lista_algoritimos = []
 
     def __init__(self, caminho_do_arquivo_a_ser_lido):
         leitor = LeitorDeArquivo(caminho_do_arquivo_a_ser_lido)
-        tupla_vertices_arestas = leitor.interpretar()
+        tupla_vertices_arestas_direcionado = leitor.interpretar()
 
+        self.direcionado = tupla_vertices_arestas_direcionado[2]
+        self.matriz_adj = MatrizAdj(tupla_vertices_arestas_direcionado[0], tupla_vertices_arestas_direcionado[1])
+        self.lista_adj = ListaAdj(tupla_vertices_arestas_direcionado[0], tupla_vertices_arestas_direcionado[1])
+        self.informacao_arquivo = (caminho_do_arquivo_a_ser_lido, tupla_vertices_arestas_direcionado)
 
-        print("O grafo é direcionado? [S/N]", end = ' ')
-        resposta = input().lower()
+    def imprimir_lista(self, lista):
+        if len(lista) > 0:
+            print(lista[0], end='')
+        i = 1
+        while i < len(lista):
+            print(' {}'.format(lista[i]), end='')
+            i += 1
+        print()
 
-        if resposta == 's':
-            self.direcionado = True
+    def imprimir_multiplas_listas(self, listas):
+        if len(listas) > 0:
+            print(listas[0][0], end='')
+
+            i = 1
+            while i < len(listas[0]):
+                print(" {}".format(listas[0][i]), end='')
+                i += 1
+            
+            i = 1
+            while i < len(listas):
+                print(" - ", end='')
+                for v in listas[i]:
+                    print(" {}".format(v), end='')
+                i += 1
+        print()
+
+    def imprimir_booleano(self, b):
+        if b:
+            print(1)
         else:
-            self.direcionado = False
+            print(0)
 
-        
-        self.matriz_adj = MatrizAdj(tupla_vertices_arestas[0], tupla_vertices_arestas[1], self.direcionado)
-        self.lista_adj = ListaAdj(tupla_vertices_arestas[0], tupla_vertices_arestas[1], self.direcionado)
-        self.informacao_arquivo = (caminho_do_arquivo_a_ser_lido, tupla_vertices_arestas)
-
-    
     def executar(self):
         sair = False
 
         while not sair:
-            if tempo != 0:
-                print("O tempo de execução foi de: {}ns".format(tempo))
-
-
             print("Verificar")
             print("[1] Conexo")
             print("[2] Bipartido")
@@ -62,12 +84,22 @@ class Menu:
 
             resposta = int(input())
             if resposta == 1:
-                print(verifica_conexo(self.lista_adj.lista_adj))
+                self.imprimir_booleano(verifica_conexo(self.lista_adj.lista_adj))
             elif resposta == 2:
-                print(verifica_bipartido(self.lista_adj.lista_adj))
+                self.imprimir_booleano(verifica_bipartido(self.lista_adj.lista_adj))
             elif resposta == 3:
-                print(verifica_euleriano(self.lista_adj.lista_adj))
+                self.imprimir_booleano(verifica_pseudosimetrico(self.lista_adj.lista_adj, self.direcionado))
             elif resposta == 4:
-                print(verificar_ciclos(self.lista_adj.lista_adj))
+                self.imprimir_booleano(verificar_ciclos(self.lista_adj.lista_adj))
+            elif resposta == 6:
+                self.imprimir_multiplas_listas(lista_comp_fortemente_conexas(self.matriz_adj.matriz_adj))
+            elif resposta == 7:
+                self.imprimir_lista(gerar_caminho_euleriano(self.lista_adj.lista_adj, self.direcionado))
+            elif resposta == 11:
+                self.imprimir_lista(gerar_arvore_dfs(self.lista_adj.lista_adj))
+            elif resposta == 12:
+                self.imprimir_lista(gerar_arvore_bfs(self.lista_adj.lista_adj))
+            elif resposta == 14 and self.direcionado == True:
+                self.imprimir_lista(gera_ordem_topologica(self.lista_adj.lista_adj))
             elif resposta == 18:
                 sair = True

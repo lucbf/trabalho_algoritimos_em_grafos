@@ -34,7 +34,4 @@ def verifica_bipartido(lista_adj):
             if not bipartido:
                 break
     
-    if bipartido:
-        return 1
-    else:
-        return 0
+    return bipartido

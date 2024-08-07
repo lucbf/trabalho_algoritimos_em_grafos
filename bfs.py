@@ -1,6 +1,6 @@
-from .cores import Cores
+from cores import Cores
 
-def bfs(lista_adj):
+def gerar_arvore_bfs(lista_adj):
     tam = 0
     for _ in lista_adj:
         tam += 1
