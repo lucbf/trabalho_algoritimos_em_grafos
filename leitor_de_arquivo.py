@@ -43,6 +43,8 @@ class LeitorDeArquivo:
 
             i += 1
         
+        arestas.sort()
+        
         for n in range(nvertices):
             vertices.append(n)
         return (vertices, arestas, direcionado)

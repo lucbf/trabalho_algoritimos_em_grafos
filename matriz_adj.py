@@ -16,3 +16,11 @@ class MatrizAdj:
             retorno += lista.__str__() + '\n'
         
         return retorno
+    
+class MatrizAdjValorada:
+
+    def __init__(self, vertices, arestas):
+        self.matriz_adj = [[None for _ in range(len(vertices))] for _ in range(len(vertices))]
+
+        for a, b, p in arestas:
+            self.matriz_adj[a][b] = p
