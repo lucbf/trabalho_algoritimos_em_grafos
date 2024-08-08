@@ -1,15 +1,17 @@
 
 from leitor_de_arquivo import LeitorDeArquivo
-from matriz_adj import MatrizAdj
-from lista_adj import ListaAdj
+from matriz_adj import MatrizAdj, MatrizAdjValorada
+from lista_adj import ListaAdj, ListaAdjValorada
 from bipartido import verifica_bipartido
 from ciclos import verificar_ciclos
 from conexo import verifica_conexo
 from ordem_topologica import gera_ordem_topologica
 from bfs import gerar_arvore_bfs
 from dfs import gerar_arvore_dfs
+from comp_conexos import comp_conexos
 from comp_fortemente_conexas import lista_comp_fortemente_conexas
 from caminho_euleriano import verifica_pseudosimetrico, gerar_caminho_euleriano
+from geradora_minima import kruskal
 
 class Menu:
     lista_algoritimos = []
@@ -21,6 +23,8 @@ class Menu:
         self.direcionado = tupla_vertices_arestas_direcionado[2]
         self.matriz_adj = MatrizAdj(tupla_vertices_arestas_direcionado[0], tupla_vertices_arestas_direcionado[1])
         self.lista_adj = ListaAdj(tupla_vertices_arestas_direcionado[0], tupla_vertices_arestas_direcionado[1])
+        self.lista_adj_valorada = ListaAdjValorada(tupla_vertices_arestas_direcionado[0], tupla_vertices_arestas_direcionado[1])
+        self.matriz_adj_valorada = MatrizAdjValorada(tupla_vertices_arestas_direcionado[0], tupla_vertices_arestas_direcionado[1])
         self.informacao_arquivo = (caminho_do_arquivo_a_ser_lido, tupla_vertices_arestas_direcionado)
 
     def imprimir_lista(self, lista):
@@ -91,6 +95,8 @@ class Menu:
                 self.imprimir_booleano(verifica_pseudosimetrico(self.lista_adj.lista_adj, self.direcionado))
             elif resposta == 4:
                 self.imprimir_booleano(verificar_ciclos(self.lista_adj.lista_adj))
+            elif resposta == 5:
+                self.imprimir_multiplas_listas(comp_conexos(self.lista_adj.lista_adj))
             elif resposta == 6:
                 self.imprimir_multiplas_listas(lista_comp_fortemente_conexas(self.matriz_adj.matriz_adj))
             elif resposta == 7:
@@ -99,6 +105,8 @@ class Menu:
                 self.imprimir_lista(gerar_arvore_dfs(self.lista_adj.lista_adj))
             elif resposta == 12:
                 self.imprimir_lista(gerar_arvore_bfs(self.lista_adj.lista_adj))
+            elif resposta == 13:
+                print(kruskal(self.informacao_arquivo[1][1], len(self.matriz_adj.matriz_adj), self.direcionado))
             elif resposta == 14 and self.direcionado == True:
                 self.imprimir_lista(gera_ordem_topologica(self.lista_adj.lista_adj))
             elif resposta == 18:

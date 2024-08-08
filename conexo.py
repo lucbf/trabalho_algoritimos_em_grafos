@@ -3,7 +3,7 @@ from cores import Cores
 def dfs(lista_adj, idx, cores):
     cores[idx] = Cores.CINZA
 
-    for e in enumerate(lista_adj[idx]):
+    for e in lista_adj[idx]:
         if cores[e] == Cores.BRANCO:
             dfs(lista_adj, e, cores)
 
