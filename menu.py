@@ -12,6 +12,11 @@ from comp_conexos import comp_conexos
 from comp_fortemente_conexas import lista_comp_fortemente_conexas
 from caminho_euleriano import verifica_pseudosimetrico, gerar_caminho_euleriano
 from geradora_minima import kruskal
+from vertices_articualacao import vertices_articulacao
+from arestas_ponte import qtd_arestas_ponte
+from dijkstra import dijkstra
+from fluxo_maximo import calcula_fluxo_maximo
+from fecho_transitivo import calcula_fecho_transitivo
 
 class Menu:
     lista_algoritimos = []
@@ -71,19 +76,18 @@ class Menu:
             print("Listar")
             print("[5] Componentes conexas")
             print("[6] Componentes fortemente conexas")
-            print("[7] Caminho euleriano")
-            print("[8] Caminho Hamiltoniano")
-            print("[9] Vértices de articulação")
-            print("[10] Arestas ponte")
+            print("[7] Vértices de articulação")
+            print("[8] Arestas ponte")
             print("Gerar")
-            print("[11] Árvore de profundidade")
-            print("[12] Árvore de largura")
-            print("[13] Árvore geradora mínima")
-            print("[14] Ordem topológica")
-            print("[15] Valor do caminho mínimo entre dois vértices")
-            print("[16] Valor do fluxo máximo")
-            print("[17] Fecho transitivo")
-            print("Insira [18] para sair")
+            print("[9] Árvore de profundidade")
+            print("[10] Árvore de largura")
+            print("[11] Árvore geradora mínima")
+            print("[12] Ordem topológica")
+            print("[13] Valor do caminho mínimo entre dois vértices")
+            print("[14] Valor do fluxo máximo")
+            print("[15] Fecho transitivo")
+            print("[16] Caminho euleriano")
+            print("Insira [17] para sair")
                   
 
             resposta = int(input())
@@ -96,18 +100,28 @@ class Menu:
             elif resposta == 4:
                 self.imprimir_booleano(verificar_ciclos(self.lista_adj.lista_adj))
             elif resposta == 5:
-                self.imprimir_multiplas_listas(comp_conexos(self.lista_adj.lista_adj))
+                print(comp_conexos(self.lista_adj.lista_adj))
             elif resposta == 6:
-                self.imprimir_multiplas_listas(lista_comp_fortemente_conexas(self.matriz_adj.matriz_adj))
-            elif resposta == 7:
+                print(lista_comp_fortemente_conexas(self.matriz_adj.matriz_adj))
+            elif resposta == 16:
                 self.imprimir_lista(gerar_caminho_euleriano(self.lista_adj.lista_adj, self.direcionado))
-            elif resposta == 11:
+            elif resposta == 7:
+                self.imprimir_lista(vertices_articulacao(self.lista_adj.lista_adj, self.direcionado))
+            elif resposta == 8:
+                print(qtd_arestas_ponte(self.lista_adj.lista_adj, self.direcionado))
+            elif resposta == 9:
                 self.imprimir_lista(gerar_arvore_dfs(self.lista_adj.lista_adj))
-            elif resposta == 12:
+            elif resposta == 10:
                 self.imprimir_lista(gerar_arvore_bfs(self.lista_adj.lista_adj))
-            elif resposta == 13:
+            elif resposta == 11:
                 print(kruskal(self.informacao_arquivo[1][1], len(self.matriz_adj.matriz_adj), self.direcionado))
-            elif resposta == 14 and self.direcionado == True:
+            elif resposta == 12 and self.direcionado == True:
                 self.imprimir_lista(gera_ordem_topologica(self.lista_adj.lista_adj))
-            elif resposta == 18:
+            elif resposta == 13:
+                print(dijkstra(self.lista_adj_valorada.lista_adj, self.matriz_adj_valorada.matriz_adj))
+            elif resposta == 14:
+                print(-1)
+            elif resposta == 15:
+                self.imprimir_lista(calcula_fecho_transitivo(self.matriz_adj.matriz_adj))
+            elif resposta == 17:
                 sair = True

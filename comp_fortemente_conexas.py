@@ -19,7 +19,6 @@ def dfs_ida(matriz_adj, idx, e_s, tempo):
 
 def dfs_volta(matriz_adj, idx, cores, lista):
     cores[idx] = Cores.CINZA
-    lista.append(idx)
 
     i = 0
     while i < len(matriz_adj):
@@ -37,14 +36,13 @@ def lista_comp_fortemente_conexas(matriz_adj):
             tempo = dfs_ida(matriz_adj, idx, e_s, tempo)
 
     cores = [Cores.BRANCO for _ in range(len(matriz_adj))]
-    componentes = []
+    componentes = 0
     while Cores.BRANCO in cores:
         maior = (0, 0)
         for idx, v in enumerate(e_s):
             if cores[idx] == Cores.BRANCO and v.saida > maior[1]:
                 maior = (idx, v.saida)
-        componente = []
-        dfs_volta(matriz_adj, maior[0], cores, componente)
-        componentes.append(componente)
+        dfs_volta(matriz_adj, maior[0], cores)
+        componentes += 1
     
     return componentes

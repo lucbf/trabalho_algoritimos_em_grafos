@@ -3,7 +3,7 @@ from queue import Queue
 
 def comp_conexos(lista_adj):
     cores = [Cores.BRANCO for _ in range(len(lista_adj))]
-    retorno = []
+    retorno = 0
 
     for idx, c in enumerate(cores):
         if c == Cores.BRANCO:
@@ -13,11 +13,11 @@ def comp_conexos(lista_adj):
             #vértice é retirado dela na primeira iteração
             fila = Queue(len(lista_adj) - 1)
             fila.put(idx)
-            retorno.append([])
+            retorno += 1
+            #bfs
             while not fila.empty():
                 v = fila.get()
                 cores[v] = Cores.CINZA
-                retorno[-1].append(v)
 
                 for adj in lista_adj[v]:
                     if cores[adj] == Cores.BRANCO:

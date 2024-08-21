@@ -19,8 +19,6 @@ def gerar_arvore_dfs(lista_adj):
 
     cores = [Cores.BRANCO for _ in range(tam)]
 
-    for idx, c in enumerate(cores):
-        if c == Cores.BRANCO:
-            dfs(lista_adj, idx, cores, arvore)
+    dfs(lista_adj, 0, cores, arvore)
     
     return arvore

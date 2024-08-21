@@ -1,11 +1,8 @@
 from cores import Cores
 
 def gerar_arvore_bfs(lista_adj):
-    tam = 0
-    for _ in lista_adj:
-        tam += 1
 
-    cores = [Cores.BRANCO for _ in range(tam)]
+    cores = [Cores.BRANCO for _ in range(len(lista_adj))]
 
     fila = [0]
     for i in fila:
