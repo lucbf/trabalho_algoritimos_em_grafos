@@ -1,3 +1,9 @@
+from enum import Enum
+
+class Cores(Enum):
+    BRANCO = 0
+    CINZA = 1
+    PRETO = 2
 class LeitorDeArquivo:
     def interpretar(self):
 
@@ -83,7 +89,7 @@ class ListaAdjValorada:
 
         for v1, v2, p in arestas:
             self.lista_adj[v1].append((v2, p))
-from cores import Cores
+
 
 def dfs_conexo(lista_adj, idx, cores):
     cores[idx] = Cores.CINZA
@@ -109,7 +115,7 @@ def verifica_conexo(lista_adj):
             return False
     else:
         return True
-from cores import Cores
+
 
 def dfs_bipartido(lista_adj, cores, idx, cor_atual = Cores.CINZA, bipartido = True):
     cores[idx] = cor_atual
@@ -146,7 +152,7 @@ def verifica_bipartido(lista_adj):
                 break
     
     return bipartido
-from cores import Cores
+
 
 def encontra_ciclo(lista_adj, idx, idx_inicial, arestas_visitadas, caminho, direcionado):
     caminho.append(idx)
@@ -211,7 +217,7 @@ def gerar_caminho_euleriano(lista_adj, direcionado):
                 caminho = c
     
     return caminho
-from cores import Cores
+
 
 def dfs_ciclo(lista_adj, idx, cores, achou_ciclo = False):
     cores[idx] = Cores.CINZA
@@ -240,7 +246,7 @@ def verificar_ciclos(lista_adj):
                 break
     return ciclos
 
-from cores import Cores
+
 from queue import Queue
 
 def comp_conexos(lista_adj):
@@ -267,7 +273,7 @@ def comp_conexos(lista_adj):
                 cores[v] = Cores.PRETO
     return retorno
 
-from cores import Cores
+
 
 class Ordem:
     def __init__(self) -> None:
@@ -315,7 +321,7 @@ def lista_comp_fortemente_conexas(matriz_adj):
         componentes += 1
     
     return componentes
-from cores import Cores
+
 from queue import Queue
 
 #se o grau for menor que 2 não é um vértice de articulação
@@ -383,7 +389,7 @@ def qtd_arestas_ponte(lista_adj, direcionado):
     
     return arestas_ponte[0]
     
-from cores import Cores
+
 
 def dfs(lista_adj, idx, cores, arvore):
     cores[idx] = Cores.CINZA
@@ -407,7 +413,7 @@ def gerar_arvore_dfs(lista_adj):
     dfs(lista_adj, 0, cores, arvore)
     
     return arvore
-from cores import Cores
+
 
 def gerar_arvore_bfs(lista_adj):
 
@@ -448,7 +454,7 @@ def kruskal(arestas, nvertices, direcionado):
             vertices_adicionados.add(ar[j][1])
         j += 1
     return retorno
-from cores import Cores
+
 def dfs_ot(lista_adj, idx, cores, ordem = []):
     cores[idx] = Cores.CINZA
 
